@@ -1,9 +1,9 @@
-del mlib/ru.urvanov.calculatorex.jar
-del mlib/ru.urvanov.calculatorex.standardplugin.jar
+del "mlib\ru.urvanov.calculatorex.jar"
+del "mlib\ru.urvanov.calculatorex.standardplugin.jar"
 
 rem Doesn't work. Should remove build content
-rem rd \S \Q .\mods\ru.urvanov.calculatorex
-rem rd \S \Q .\mods\ru.urvanov.calculatorex.standardplugin
+rd \S \Q "mods\ru.urvanov.calculatorex"
+rd \S \Q "mods\ru.urvanov.calculatorex.standardplugin"
 
 javac -d mods --module-source-path src  src/ru.urvanov.calculatorex/ru/urvanov/calculatorex/Main.java
 javac -d mods --module-source-path src  src/ru.urvanov.calculatorex.standardplugin/ru/urvanov/calculatorex/plugin/standard/Sum.java

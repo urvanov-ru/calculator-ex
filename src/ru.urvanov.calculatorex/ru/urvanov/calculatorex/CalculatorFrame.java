@@ -2,6 +2,8 @@ package ru.urvanov.calculatorex;
 
 import java.awt.GridLayout;
 import java.awt.FlowLayout;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 import javax.swing.*;
 
 import java.util.ServiceLoader;
@@ -13,6 +15,7 @@ import java.util.Locale;
 
 import ru.urvanov.calculatorex.plugin.Operation;
 import ru.urvanov.calculatorex.plugin.NoneOperation;
+import ru.urvanov.calculatorex.plugin.CalculatorState;
 
 public class CalculatorFrame extends JFrame {
 
@@ -21,7 +24,7 @@ public class CalculatorFrame extends JFrame {
     private JPanel operationsPanel;
 
     private Operation operation = new NoneOperation();
-    private double x;
+    private CalculatorState calculatorState = new CalculatorState();
 
     private JLabel numberLabel;
 
@@ -39,9 +42,7 @@ public class CalculatorFrame extends JFrame {
         add(calculatorPanel);
         for (int n = 0; n < 10; n++) {
             JButton oneButton = new JButton(String.valueOf(n));
-            oneButton.addActionListener(event -> {
-                numberLabel.setText(numberLabel.getText() + oneButton.getText());
-            });
+            oneButton.addActionListener(new NumberButtonEvent(n));
             calculatorPanel.add(oneButton);
         }
 
@@ -56,21 +57,28 @@ public class CalculatorFrame extends JFrame {
             System.out.println("found " + op.getButtonText());
             OperationButton btn = new OperationButton(op);
             btn.addActionListener(event -> {
-                double y = readValue();
-                this.x = operation.calculate(x, y);
-                this.operation = ((OperationButton) event.getSource()).getOperation();
-                 
+                operation.calculate(calculatorState);
+                this.operation = ((OperationButton) event.getSource()).getOperation(); 
+                numberLabel.setText(String.valueOf(calculatorState.getDisplayValue()));
             });
             CalculatorFrame.this.add(btn);
         });
     }
-
-    private double readValue() {
-        try {
-            return NumberFormat.getInstance(Locale.ROOT).parse(numberLabel.getText()).doubleValue();
-        } catch (ParseException ex) {
-            ex.printStackTrace();
-            return 0.0;
+                                                                                                           
+    class NumberButtonEvent implements ActionListener {
+        private double value;
+        public NumberButtonEvent(double value) {
+            this.value = value;
+        }
+        @Override
+        public void actionPerformed(ActionEvent event) {
+            if (calculatorState.isCalculated()) {
+                calculatorState.setCalculated(false);
+                calculatorState.setDisplayValue(value);
+            } else {
+                calculatorState.setDisplayValue(calculatorState.getDisplayValue() * 10 + value);    
+            }
+            numberLabel.setText(String.valueOf(calculatorState.getDisplayValue()));
         }
     }
 

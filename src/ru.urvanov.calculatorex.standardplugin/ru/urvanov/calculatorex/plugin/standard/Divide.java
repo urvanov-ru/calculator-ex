@@ -3,14 +3,14 @@ package ru.urvanov.calculatorex.plugin.standard;
 import ru.urvanov.calculatorex.plugin.Operation;
 import ru.urvanov.calculatorex.plugin.CalculatorState;
 
-public class Sum implements Operation {
+public class Divide implements Operation {
     public String getButtonText() {                                                     
-        return "+";
+        return "/";
     }
 
     public void calculate(CalculatorState state) {
         state.setCalculated(true);
-        state.setDisplayValue(state.getAccumulatedValue() + state.getDisplayValue());
+        state.setDisplayValue(state.getAccumulatedValue() / state.getDisplayValue());
         state.setAccumulatedValue(state.getDisplayValue());
     }
 

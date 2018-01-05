@@ -9,6 +9,7 @@ public class OperationButton extends JButton {
 
     public OperationButton(Operation operation) {
         super(operation.getButtonText());
+        this.operation = operation;
     }
 
     public Operation getOperation() {
