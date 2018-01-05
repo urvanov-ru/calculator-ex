@@ -3,20 +3,20 @@ package ru.urvanov.calculatorex.plugin.standard;
 import ru.urvanov.calculatorex.plugin.Operation;
 import ru.urvanov.calculatorex.plugin.CalculatorState;
 
-public class Sum implements Operation {
+public class Clear implements Operation {
     public String getButtonText() {                                                     
-        return "+";
+        return "C";
     }
 
     public void calculate(CalculatorState state) {
-        state.setCalculated(true);
-        state.setDisplayValue(state.getAccumulatedValue() + state.getDisplayValue());
         state.setAccumulatedValue(state.getDisplayValue());
+        state.setCalculated(true);
     }
 
     @Override
     public void buttonPressed(CalculatorState state) {
-        state.setAccumulatedValue(state.getDisplayValue());
+        state.setAccumulatedValue(0.0);
+        state.setDisplayValue(0.0);
         state.setCalculated(true); 
     }
 }

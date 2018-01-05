@@ -6,7 +6,13 @@ public class NoneOperation implements Operation {
         return "none";
     }
     @Override
-    public double calculate(double x, double y) {
-        return y;
+    public void calculate(CalculatorState state) {
+        state.setAccumulatedValue(state.getDisplayValue());
+        state.setCalculated(true);
+    }
+    @Override
+    public void buttonPressed(CalculatorState state) {
+        state.setAccumulatedValue(state.getDisplayValue());
+        state.setCalculated(true);
     }
 }
